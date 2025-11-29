@@ -1,0 +1,95 @@
+﻿@page
+@model StoreWebApp.Pages.Products.IndexModel
+
+@{
+    ViewData["Title"] = "Товары";
+}
+
+<h1>Товары</h1>
+
+<p>
+    <a asp-page="Create" class="btn btn-primary">Создать</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].Article)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].Unit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].Discount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].Photo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].Manufacturer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product[0].Supplier)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Product) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Article)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Discount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Photo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Manufacturer.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Supplier.Name)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-primary">Изменить</a>
+                <a asp-page="./Delete" asp-route-id="@item.Id" class="btn btn-primary">Удалить</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
