@@ -10,86 +10,60 @@
 <p>
     <a asp-page="Create" class="btn btn-primary">Создать</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Product[0].Article)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product[0].Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product[0].Unit)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product[0].Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product[0].Category)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product[0].Discount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product[0].Amount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product[0].Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product[0].Photo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product[0].Manufacturer)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product[0].Supplier)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
+
+
+
 @foreach (var item in Model.Product) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Article)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Unit)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
+
+    <div class="card" style="margin: 10px">
+
+        <div style="display: flex">
+            <div class="card">
+                <img src="~/images/@Html.DisplayFor(modelItem => item.Photo)"
+                     width="50px"
+                     onerror="this.src='/images/picture.png';" />
+            </div>
+        </div>
+        <div class="card">
+            <p>
                 @Html.DisplayFor(modelItem => item.Category)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Discount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Amount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Photo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Manufacturer.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Supplier.Name)
-            </td>
-            <td>
+                |
+                @Html.DisplayFor(modelItem => item.Title)
+            </p>
+
+            <p>
+                Описание товара: @Html.DisplayFor(modelItem => item.Description)
+            </p>
+
+            <p>
+                Производитель: @Html.DisplayFor(modelItem => item.Manufacturer.Name)
+            </p>
+
+            <p>
+                Поставщик: @Html.DisplayFor(modelItem => item.Supplier.Name)
+            </p>
+
+            <p>
+                Цена: @Html.DisplayFor(modelItem => item.Price)
+            </p>
+
+            <p>
+                Единица измерения: @Html.DisplayFor(modelItem => item.Unit)
+            </p>
+
+            <p>
+                Количество на складе: @Html.DisplayFor(modelItem => item.Amount)
+            </p>
+        </div>        
+
+        <div class="card">
+                Действующая скидка: @Html.DisplayFor(modelItem => item.Discount)
+            <p>
                 <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-primary">Изменить</a>
                 <a asp-page="./Delete" asp-route-id="@item.Id" class="btn btn-primary">Удалить</a>
-            </td>
-        </tr>
+            </p>
+        </div>     
+
+        
+    </div>
 }
-    </tbody>
-</table>
