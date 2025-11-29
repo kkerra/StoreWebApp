@@ -21,11 +21,18 @@ namespace StoreWebApp.Pages.Products
 
         public IList<Product> Product { get;set; } = default!;
 
-        public async Task OnGetAsync()
+        public string UserRole { get; set; }
+
+        public async Task<IActionResult> OnGetAsync()
         {
+            UserRole = HttpContext.Session.GetString("UserRole");
+            if(String.IsNullOrEmpty(UserRole))
+                return RedirectToPage("../Login");
+
             Product = await _context.Products
                 .Include(p => p.Manufacturer)
                 .Include(p => p.Supplier).ToListAsync();
+            return Page();
         }
     }
 }

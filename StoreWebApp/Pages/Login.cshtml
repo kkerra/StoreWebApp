@@ -11,18 +11,8 @@
     <hr />
     <div class="row">
     <div class="col-md-4">
-    <form method="post">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="User.Role" class="control-label"></label>
-                <input asp-for="User.Role" class="form-control" />
-                <span asp-validation-for="User.Role" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="User.FullName" class="control-label"></label>
-                <input asp-for="User.FullName" class="form-control" />
-                <span asp-validation-for="User.FullName" class="text-danger"></span>
-            </div>
+    <form method="post" asp-page-handler="Login">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>            
             <div class="form-group">
                 <label asp-for="User.Login" class="control-label"></label>
                 <input asp-for="User.Login" class="form-control" />
@@ -34,14 +24,16 @@
                 <span asp-validation-for="User.Password" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Войти" class="btn btn-primary" />
+            </div>
+        </form>
+
+        <form method="post" asp-page-handler="Guest">
+            <div class="form-group">
+                <input type="submit" value="Войти как гость" class="btn btn-primary" />
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-page="Index">Back to List</a>
 </div>
 
 @section Scripts {

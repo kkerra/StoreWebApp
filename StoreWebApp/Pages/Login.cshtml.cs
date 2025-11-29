@@ -21,18 +21,32 @@ namespace StoreWebApp.Pages
         [BindProperty]
         public User User { get; set; } = default!;
 
-        // For more information, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        // логин
+        public async Task<IActionResult> OnPostLoginAsync()
         {
-            if (!ModelState.IsValid)
+            var user = _context.Users.FirstOrDefault(u => u.Login == User.Login);
+            if (user != null && user.Password == User.Password)
             {
-                return Page();
+                HttpContext.Session.SetString("UserRole", user.Role);
+                HttpContext.Session.SetString("UserName", user.FullName);
+                return RedirectToPage("Products/Index");
             }
+            return Page();
+        }
 
-            _context.Users.Add(User);
-            await _context.SaveChangesAsync();
+        // вход гостя:
+        public IActionResult OnPostGuest()
+        {
+            HttpContext.Session.Clear();
+            HttpContext.Session.SetString("UserRole", "Гость");
+            return RedirectToPage("Products/Index");
+        }
 
-            return RedirectToPage("./Index");
+        // выход
+        public IActionResult OnGetLogout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToPage("Products/Index"); // return Page();
         }
     }
 }

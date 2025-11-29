@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor;
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -31,6 +35,16 @@
                         </li>
                     </ul>
                 </div>
+                
+
+                @if (HttpContextAccessor.HttpContext.Session.GetString("UserRole") != null)
+                {                    
+                    <h3>@HttpContextAccessor.HttpContext.Session.GetString("UserRole")</h3>
+                    <h3>@HttpContextAccessor.HttpContext.Session.GetString("UserName")</h3>
+                    <a asp-page="../Login" asp-page-handler="Logout" class="btn btn-primary">Выйти</a>
+                }
+                
+
             </div>
         </nav>
     </header>
