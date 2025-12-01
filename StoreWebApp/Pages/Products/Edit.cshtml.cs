@@ -45,6 +45,15 @@ namespace StoreWebApp.Pages.Products
         // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
+            var file = HttpContext.Request.Form.Files.FirstOrDefault();
+            if (file?.Length > 0)
+            {
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", file.FileName);
+                using var stream = new FileStream(path, FileMode.Create);
+                await file.CopyToAsync(stream);
+                Product.Photo = file.FileName;
+            }
+
             _context.Attach(Product).State = EntityState.Modified;
 
             try

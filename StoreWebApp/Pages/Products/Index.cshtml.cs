@@ -10,7 +10,7 @@ using StoreWebApp.Models;
 
 namespace StoreWebApp.Pages.Products
 {
-    public class IndexModel : PageModel
+    public class IndexModel : AuthPageModel
     {
         private readonly StoreWebApp.Contexts.Dbde3503Context _context;
 
@@ -21,13 +21,10 @@ namespace StoreWebApp.Pages.Products
 
         public IList<Product> Product { get;set; } = default!;
 
-        public string UserRole { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
         {
-            UserRole = HttpContext.Session.GetString("UserRole");
-            if(String.IsNullOrEmpty(UserRole))
-                return RedirectToPage("../Login");
+            HasRole();
 
             Product = await _context.Products
                 .Include(p => p.Manufacturer)
