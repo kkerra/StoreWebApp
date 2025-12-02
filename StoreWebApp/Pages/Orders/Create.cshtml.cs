@@ -10,7 +10,7 @@ using StoreWebApp.Models;
 
 namespace StoreWebApp.Pages.Orders
 {
-    public class CreateModel : PageModel
+    public class CreateModel : AuthPageModel
     {
         private readonly StoreWebApp.Contexts.Dbde3503Context _context;
 
@@ -31,10 +31,8 @@ namespace StoreWebApp.Pages.Orders
         // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
+            if (CanEdit() is IActionResult result)
+                return result;
 
             _context.Orders.Add(Order);
             await _context.SaveChangesAsync();

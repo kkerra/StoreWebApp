@@ -10,7 +10,7 @@ using StoreWebApp.Models;
 
 namespace StoreWebApp.Pages.Orders
 {
-    public class IndexModel : PageModel
+    public class IndexModel : AuthPageModel
     {
         private readonly StoreWebApp.Contexts.Dbde3503Context _context;
 
@@ -21,10 +21,14 @@ namespace StoreWebApp.Pages.Orders
 
         public IList<Order> Order { get;set; } = default!;
 
-        public async Task OnGetAsync()
+        public async Task<IActionResult> OnGetAsync()
         {
+            if (HasRole() is IActionResult result)
+                return result;
+
             Order = await _context.Orders
                 .Include(o => o.User).ToListAsync();
+            return Page();
         }
     }
 }

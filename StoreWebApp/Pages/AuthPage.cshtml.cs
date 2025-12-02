@@ -7,10 +7,20 @@ namespace StoreWebApp.Pages
     {
         public string UserRole => HttpContext.Session.GetString("UserRole");
 
+        public bool IsAdmin => UserRole == "Администратор";
+
         protected IActionResult HasRole()
         {
-            if (String.IsNullOrEmpty(UserRole))
-                return RedirectToPage("Login");
+            if (string.IsNullOrEmpty(UserRole))
+                return RedirectToPage("/Login");
+
+            return null;
+        }
+
+        protected IActionResult CanEdit()
+        {
+            if (!IsAdmin)
+                return RedirectToPage("/Login");
 
             return null;
         }

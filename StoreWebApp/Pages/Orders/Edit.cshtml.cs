@@ -11,7 +11,7 @@ using StoreWebApp.Models;
 
 namespace StoreWebApp.Pages.Orders
 {
-    public class EditModel : PageModel
+    public class EditModel : AuthPageModel
     {
         private readonly StoreWebApp.Contexts.Dbde3503Context _context;
 
@@ -25,6 +25,9 @@ namespace StoreWebApp.Pages.Orders
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
+            if (CanEdit() is IActionResult result)
+                return result;
+
             if (id == null)
             {
                 return NotFound();

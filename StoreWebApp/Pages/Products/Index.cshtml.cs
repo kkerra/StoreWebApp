@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using StoreWebApp.Contexts;
+using NuGet.Packaging;
 using StoreWebApp.Models;
 
 namespace StoreWebApp.Pages.Products
@@ -19,16 +15,45 @@ namespace StoreWebApp.Pages.Products
             _context = context;
         }
 
-        public IList<Product> Product { get;set; } = default!;
+        public IList<Product> Product { get; set; } = default!;
 
+        [BindProperty(SupportsGet = true)]
+        public string Search {  get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string Sort { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public int Filter { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
         {
-            HasRole();
+            if (HasRole() is IActionResult result)
+                return result;
+
+            var manufacturers = _context.Manufacturers.ToList();
+            manufacturers.Insert(0, new Manufacturer { Id = 0, Name = "Все производители" });
+
+            ViewData["ManufacturerId"] = new SelectList(manufacturers, "Id", "Name");
 
             Product = await _context.Products
                 .Include(p => p.Manufacturer)
                 .Include(p => p.Supplier).ToListAsync();
+
+            if (Search != null)
+                Product = Product.Where(p => 
+                    p.Article.Contains(Search) || 
+                    p.Title.Contains(Search))
+                    .ToList();
+
+            if(Sort != null && Sort == "price")
+                Product = Product.OrderBy(p => p.Price).ToList();
+            if(Sort != null && Sort == "price_desc")
+                Product = Product.OrderByDescending(p => p.Price).ToList();
+
+            if(Filter != null && Filter > 0)
+                Product = Product.Where(p => p.ManufacturerId == Filter).ToList();
+
             return Page();
         }
     }
