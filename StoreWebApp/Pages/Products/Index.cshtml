@@ -16,7 +16,7 @@
             <option value="price_desc" selected="@(Model.Sort == "price_desc")">По цене (дорогие)</option>
         </select>
 
-        <select class="form-control" asp-items="ViewBag.ManufacturerId" 
+        <select class="form-control" asp-items="ViewBag.ManufacturerId" asp-for="Filter"
                 name="Filter" onchange="this.form.submit()">
         </select>
 
